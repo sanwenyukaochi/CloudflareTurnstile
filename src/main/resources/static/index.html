@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>安全验证</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Cloudflare Turnstile -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f7f7f7;
+    }
+
+    .box {
+      padding: 25px;
+      width: 330px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    #error {
+      color: red;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .btn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #4b7bec;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #3867d6;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <h3>请完成安全验证</h3>
+
+  <!-- 关键：使用表单 -->
+  <form id="loginForm" method="POST" action="/login">
+
+    <!-- Turnstile 小组件 -->
+    <div class="cf-turnstile"
+         data-sitekey="0x4AAAAAACB-LgzYe9zMC2zJ"
+         data-callback="onTurnstileSuccess">
+    </div>
+
+    <!-- 关键隐藏字段：后端 filter 读取的 token -->
+    <input type="hidden" id="turnstileToken" name="cf-turnstile-response">
+
+    <button type="submit" class="btn">继续</button>
+
+    <div id="error"></div>
+  </form>
+
+</div>
+
+<script>
+  // 自动回调，Turnstile 验证通过后执行
+  function onTurnstileSuccess(token) {
+    document.getElementById("turnstileToken").value = token;
+  }
+
+  // 防止用户未完成验证直接提交
+  document.getElementById("loginForm").addEventListener("submit", function (evt) {
+    const token = document.getElementById("turnstileToken").value;
+    if (!token) {
+      evt.preventDefault();
+      document.getElementById("error").innerText = "请先完成安全验证";
+      document.getElementById("error").style.display = "block";
+    }
+  });
+</script>
+
+</body>
+</html>
