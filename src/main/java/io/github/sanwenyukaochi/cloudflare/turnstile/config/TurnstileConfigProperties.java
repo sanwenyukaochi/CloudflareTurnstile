@@ -21,6 +21,7 @@ public class TurnstileConfigProperties {
     private int connectTimeout = 5;
     private int readTimeout = 10;
     private Metrics metrics = new Metrics();
+
     @Data
     public static class Metrics {
         private boolean enabled = true;

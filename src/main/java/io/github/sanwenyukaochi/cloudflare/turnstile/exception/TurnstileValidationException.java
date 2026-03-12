@@ -1,16 +1,15 @@
 package io.github.sanwenyukaochi.cloudflare.turnstile.exception;
 
-import lombok.Getter;
-
 import java.util.Collections;
 import java.util.List;
+import lombok.Getter;
 
 /**
-
+ *
  * 当 Cloudflare Turnstile API 明确拒绝令牌时抛出的异常。
  * <p>
  * 此异常表明 Cloudflare Turnstile API 已成功处理请求，但拒绝了该令牌，认为其无效。此异常中包含 Cloudflare 返回的错误代码。
- </p>
+ * </p>
  */
 @Getter
 public class TurnstileValidationException extends TurnstileException {
@@ -32,5 +31,4 @@ public class TurnstileValidationException extends TurnstileException {
         super(message);
         this.errorCodes = errorCodes != null ? Collections.unmodifiableList(errorCodes) : Collections.emptyList();
     }
-
 }

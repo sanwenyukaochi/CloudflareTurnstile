@@ -138,6 +138,5 @@ public final class ValidationResult {
         /** 发生输入校验异常。 */
         INPUT_ERROR,
         ;
-
     }
 }

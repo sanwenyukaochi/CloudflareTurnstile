@@ -74,7 +74,8 @@ public class TurnstileCaptchaFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain)
             throws ServletException, IOException {
-        if (request.getServletPath().equals(loginSubmissionPath) && !request.getMethod().equals(HttpMethod.POST.name())) {
+        if (request.getServletPath().equals(loginSubmissionPath)
+                && !request.getMethod().equals(HttpMethod.POST.name())) {
             String token = obtainTurnstileTokenParameterName(request);
             boolean valid = validationService.validateTurnstileResponse(token, getClientIp(request));
             if (valid) {
@@ -93,8 +94,7 @@ public class TurnstileCaptchaFilter extends OncePerRequestFilter {
         return validationService.getClientIpAddress(request);
     }
 
-    @Nullable
-    protected String obtainTurnstileTokenParameterName(HttpServletRequest request) {
+    @Nullable protected String obtainTurnstileTokenParameterName(HttpServletRequest request) {
         return request.getParameter(this.turnstileTokenParameterName);
     }
 }
